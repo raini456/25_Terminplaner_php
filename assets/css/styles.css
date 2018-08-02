@@ -1,0 +1,21 @@
+*{font-family:verdana;}
+
+body{    
+    background-color: #565656;    
+}
+#wrapper{
+    width:90%;
+    height:300px;
+    background:whitesmoke;  
+    border-radius:10px;
+}
+#wrapper ul{
+    width:95%;
+    min-height: 3rem;
+    max-height:auto;
+    background-color:lightblue;
+}
+#wrapper li{
+    width:100%;
+    height:2rem;
+}

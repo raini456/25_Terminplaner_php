@@ -23,6 +23,36 @@ and open the template in the editor.
         //header('Location:db.php?flag=2') ;
         //header('Location:http://www.google.de') ;
         ?>
-        <div class="wrapper" id="wrapper"></div>
+        <div class="wrapper" id="wrapper">
+            <div class="moveBox">
+                <div class="startView">Start                    
+                    
+                </div>
+                <div class="listView">List
+                    <ul id="sortable"></ul>
+                    <div id="question">Wollen Sie wirklich löschen?
+                        <input type="radio" name="question" value="ja">ja
+                        <input type="radio" name="question" value="nein">nein
+                    </div>
+                </div>
+                <div class="detailView">Detail
+                    
+                </div>            
+                <div class="addView">AddView
+                    
+                </div>
+                    
+            </div>
+                <div class="menuBox">
+                    
+                        <button class="mBtn" id="home" data-nr="0">Start</button>
+                        <button class="mBtn" id="overview" data-nr="1">Übersicht</button>
+                        <button class="mBtn" id="details" data-nr="2">Details</button>
+                        <button class="mBtn" id="addData" data-nr="3">Einträge</button>                 
+                   
+                </div>
+            
+        </div>  
+    </div>
     </body>
 </html>

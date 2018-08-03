@@ -43,7 +43,7 @@ function  getDataFromDB(){
    var xhttp = new XMLHttpRequest();
    xhttp.onreadystatechange = function() {
          if (this.readyState == 4 && this.status == 200) {
-             console.log(this.readyState, this.status);
+             //console.log(this.readyState, this.status);
          viewData(JSON.parse(this.responseText));
          }
     };    
@@ -51,7 +51,7 @@ function  getDataFromDB(){
    xhttp.send();   
 }
 function viewData(data){
-    console.log(data);
+    //console.log(data);
     $.each(data, function(index, item){
         var yp = index*(30 + 3);
         $('#sortable').append("<div syp='"+yp+"px' style='top:"+yp+"px' class='listBtn' data-nr='"+item.id+"'><div class='listDatum'>"+item.datum+"</div><div class='listDatum'>"+item.titel+"</div></div>");       
@@ -79,7 +79,7 @@ function viewData(data){
             stop:function(){
                     if (parseInt($(this).css("top")) > 350) {
                         if (confirm('Löschen?')) {
-                            console.log($(this).attr('data-nr'));
+                            //console.log($(this).attr('data-nr'));
                             deleteInDB($(this).attr('data-nr'));
                             //$(this).remove();                            
                         } else {
@@ -106,9 +106,9 @@ function deleteInDB(id){
    xhttp.onreadystatechange = function() {
          if (this.readyState == 4 && this.status == 200) {
           $(".listView").html("");
-          //getDataFromDB();
-            //getDataFromDB();
-            console.log(JSON.parse(this.responseText));
+          getDataFromDB();
+            
+          //  console.log(JSON.parse(this.responseText));
          }
     };    
    xhttp.open("GET", "db.php?flag=2&id="+id, true);
@@ -116,8 +116,10 @@ function deleteInDB(id){
 }
 function getFormData(){
     $('#btnForm').click(function(){
-        var title=$('#inputTitle').text;
-        console.log(title);
+//        alert("Yippie");
+          alert($('#inputTitle').text());
+//        var title=$('#inputTitle').val();
+//        console.log(title);
     });
 }
 //    var viewData = function (data) {

@@ -55,7 +55,7 @@ and open the template in the editor.
                         <for id="inputComment">Bemerkung<br>
                             <textarea col="5" span="20" id="inputComment"></textarea>
                         </for><br>
-                        <button id="btnForm">Termin eintragen</button>
+                        <input type="button" id="btnForm" value="Termin eintragen"></button>
                     </form>
                 </div>
                     

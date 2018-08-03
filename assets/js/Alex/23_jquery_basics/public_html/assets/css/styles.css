@@ -1,0 +1,82 @@
+*{font-family:verdana;}
+
+body{    
+    background-color: #565656;    
+}
+
+
+.allBtn{
+    width:280px;
+    height:40px;
+    margin:10px;
+}
+
+.arrowBtn{
+    width:50px;    height:30px;    background-color: gray;
+    color:white;    float:left; text-align:center;
+    cursor:pointer;
+}
+
+.prevBtn{
+    
+}
+.nextBtn{
+    float:right;
+}
+
+
+
+
+
+.btn{
+    width:100px;
+    height:30px;
+    background:whitesmoke ;
+}
+
+.wrapper{    
+ width:300px;  height:500px; background-color:whitesmoke;
+ margin:auto; margin-top:5%;overflow: hidden;border-radius:5px;box-shadow:2px 2px 2px black;
+}
+.moveBox{width:600px;height:500px;}
+.listView{width:300px;height:500px;float:left;background-color:gainsboro;}
+.detailView{width:300px;height:500px;float:left;background-color:lightgrey;}
+
+
+.txt{
+    width:270px;
+    height:40px;
+    margin:10px;
+    background:whitesmoke ;
+    padding:5px;
+}
+
+.imgBox{
+    width:280px;
+    height:160px;
+    margin-left:10px;
+    background:whitesmoke ;
+    background-size:280px 160px;
+}
+
+.countryTxt{
+ text-align: center;
+ font-size:35px;
+ font-weight:bold;
+  text-transform: uppercase;
+}
+
+.listBtn{
+    width:100%px;
+    height:30px;
+    margin:5px;
+    background:whitesmoke ;
+   text-align:center;
+   cursor:pointer;
+   font-size:22px;
+}
+
+.listBtn:hover{
+    background:gray;
+    color:white;
+}

@@ -38,8 +38,25 @@ and open the template in the editor.
                 <div class="detailView">Detail
                     
                 </div>            
-                <div class="addView">AddView
-                    
+                <div class="addView">AddView<br><br>
+                    <form><br><br>
+                        <for id="inputTitle">Titel<br>
+                            <input type="text" id="inputTitle">
+                        </for><br>
+                        <for id="inputDate">Datum<br>
+                            <input type="date" id="inputDate">
+                        </for><br>
+                        <for id="inputCategory">Kategorie<br>
+                            <input type="text" id="inputCategory">
+                        </for><br>
+                        <for id="inputTime">Uhrzeit<br>
+                            <input type="text" id="inputTime">
+                        </for><br>
+                        <for id="inputComment">Bemerkung<br>
+                            <textarea col="5" span="20" id="inputComment"></textarea>
+                        </for><br>
+                        <button id="btnForm">Termin eintragen</button>
+                    </form>
                 </div>
                     
             </div>

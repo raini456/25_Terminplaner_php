@@ -6,6 +6,7 @@ $(document).ready(function(){
     console.log("READY !!!");
     // Globale Variablen Startwere setzen    
     getDataFromDB(); 
+    getFormData();
     $(".mBtn").click(function(){
         var nr = parseInt($(this).attr('data-nr'));
         var xp = 300 * nr * -1;
@@ -42,6 +43,7 @@ function  getDataFromDB(){
    var xhttp = new XMLHttpRequest();
    xhttp.onreadystatechange = function() {
          if (this.readyState == 4 && this.status == 200) {
+             console.log(this.readyState, this.status);
          viewData(JSON.parse(this.responseText));
          }
     };    
@@ -77,6 +79,7 @@ function viewData(data){
             stop:function(){
                     if (parseInt($(this).css("top")) > 350) {
                         if (confirm('Löschen?')) {
+                            console.log($(this).attr('data-nr'));
                             deleteInDB($(this).attr('data-nr'));
                             //$(this).remove();                            
                         } else {
@@ -103,12 +106,19 @@ function deleteInDB(id){
    xhttp.onreadystatechange = function() {
          if (this.readyState == 4 && this.status == 200) {
           $(".listView").html("");
-          getDataFromDB();
-            //viewData(JSON.parse(this.responseText));
+          //getDataFromDB();
+            //getDataFromDB();
+            console.log(JSON.parse(this.responseText));
          }
     };    
    xhttp.open("GET", "db.php?flag=2&id="+id, true);
    xhttp.send();     
+}
+function getFormData(){
+    $('#btnForm').click(function(){
+        var title=$('#inputTitle').text;
+        console.log(title);
+    });
 }
 //    var viewData = function (data) {
 //        var wrapper = document.querySelector('#wrapper');

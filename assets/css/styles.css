@@ -84,3 +84,8 @@ button{
     display:none;
     border:2px solid red;
 }
+#ausgabeTitel, #ausgabeDatum, #ausgabeZeit, #ausgabeBemerkung, #ausgabeKategorie{
+    width:200px;
+    heigth:100px;
+    border:2px solid darkred;
+}

@@ -26,7 +26,9 @@ and open the template in the editor.
         <div class="wrapper" id="wrapper">
             <div class="moveBox">
                 <div class="startView">Start                    
-                    
+                    <div id="datepicker"></div>
+                    Alle Termine anzeigen
+                    <input type="checkbox" id="onOffCheck" />
                 </div>
                 <div class="listView">List
                     <ul id="sortable"></ul>
@@ -36,7 +38,11 @@ and open the template in the editor.
                     </div>
                 </div>
                 <div class="detailView">Detail
-                    
+                    <div id="ausgabeTitel"></div>
+                    <div id="ausgabeDatum"></div>
+                    <div id="ausgabeZeit"></div>
+                    <div id="ausgabeBemerkung"></div>
+                    <div id="ausgabeKategorie"></div>
                 </div>            
                 <div class="addView">AddView<br>
                     <form id="insertForm"><br>
@@ -62,7 +68,7 @@ and open the template in the editor.
                         <for id="inputComment">Bemerkung<br>
                             <textarea col="5" span="20" id="inputComment" name="bemerkung"></textarea>
                         </for><br>
-                        <input type="button" id="btnInsert" value="Termin eintragen"></button>
+                        <input type="button" id="insertBtn" value="Termin eintragen"></button>
                     </form>
                 </div>
                     

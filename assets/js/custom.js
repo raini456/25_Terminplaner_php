@@ -1,141 +1,36 @@
-//var allData;
-////$( selector(htmlelement,cssclass,id) ).methode -> .css(),.attr(),.hide(),.show()
-////$( selector(htmlelement,cssclass,id) ).event(fn(){...})   -> .click(),.ready(),.on() 
-//$(document).ready(function(){
-//    
-//    console.log("READY !!!");
-//    // Globale Variablen Startwere setzen    
-//    getDataFromDB(); 
-//    readFormAndSendData();
-//    $(".mBtn").click(function(){
-//        var nr = parseInt($(this).attr('data-nr'));
-//        var xp = 300 * nr * -1;
-//        $(".moveBox").animate({
-//            left:xp+'px'
-//        });
-//    });    
-//});//ready End
-//
-//
-//
-//function  getDataFromDB(){   
-//   var xhttp = new XMLHttpRequest();
-//   xhttp.onreadystatechange = function() {
-//         if (this.readyState == 4 && this.status == 200) {
-//             //console.log(this.readyState, this.status);
-//         viewData(JSON.parse(this.responseText));
-//         }
-//    };    
-//   xhttp.open("GET", "db.php?flag=0", true);
-//   xhttp.send();   
-//}
-//function viewData(data){
-//    //console.log(data);
-//    $.each(data, function(index, item){
-//        var yp = index*(30 + 3);
-//        $('#sortable').append("<div syp='"+yp+"px' style='top:"+yp+"px' class='listBtn' data-nr='"+item.id+"'><div class='listDatum'>"+item.datum+"</div><div class='listDatum'>"+item.titel+"</div></div>");       
-//    });
-//    $('.listBtn').draggable(
-//        {axis:"y"},
-//        {
-//            start:function(){
-//                $(this).css({
-//                    zIndex:10
-//                });
-//            },
-//            drag:function(){
-//                if(parseInt($(this).css("top"))>350){
-//                    $(this).css({
-//                        backgroundColor:'red'
-//                    });
-//                }
-//                else{
-//                    $(this).css({
-//                        backgroundColor:'whitesmoke'
-//                    });
-//                }
-//            },
-//            stop:function(){
-//                    if (parseInt($(this).css("top")) > 350) {
-//                        if (confirm('Löschen?')) {
-//                            //console.log($(this).attr('data-nr'));
-//                            deleteInDB($(this).attr('data-nr'));
-//                            //$(this).remove();                            
-//                        } else {
-//                            $(this).css({backgroundColor: 'whiteSmoke'});
-//                            var yp = $this.attr('syp');
-//                            $(this).animate({
-//                                top: yp
-//                            });
-//                        }
-//                    }else{
-//                        var yp= $(this).attr("syp");
-//                        $(this).animate({top:yp});
-//                    }
-//                   
-//                
-//                
-//            }
-//        }
-//    );
-//    $('#sortable').sortable();
-//}
-//function deleteInDB(id){
-//   var xhttp = new XMLHttpRequest();
-//   xhttp.onreadystatechange = function() {
-//         if (this.readyState == 4 && this.status == 200) {
-//          $(".listView").html("");
-//          getDataFromDB();
-//            
-//          //  console.log(JSON.parse(this.responseText));
-//         }
-//    };    
-//   xhttp.open("GET", "db.php?flag=2&id="+id, true);
-//   xhttp.send();     
-//}
-//function readFormAndSendData(){
-//    $('#btnInsert').click(function(){ 
-//        console.log($('#insertForm').serialize());
-//        var formData=$('#insertForm').serializeArray();
-//        var dateFormData=new Date(formData[1].value);
-//        var titelFormData=formData[0].value;
-//        var datumFormData=formData[1].value;
-//        var zeitFormData=formData[2].value;
-//        var kategorieFormData=formData[3].value;
-//        var bemerkungFormData=formData[4].value;
-//        
-//        var today = new Date();
-//        //var str = today.getFullYear()+"-"+today.getMonth()+"-"+today.getDate();
-//        //today = new Date(str);
-//        if(dateFormData<today){
-//            alert("Kleiner als heute!");
-//        }
-//        if(titelFormData.length<=3){
-//            alert("Der Text muss länger als 3 Buchstaben sein!");
-//        }
-//        else{
-//            alert("Heute oder größer");
-//            $.post("db.php?flag=3",
-//             {              
-//                titel:titelFormData,
-//                datum:datumFormData,
-//                zeit:zeitFormData,
-//                kategorie:kategorieFormData,
-//                bemerkung:bemerkungFormData               
-//             },function(data, status){
-//        alert("Data: " + data + "\nStatus: " + status);
-//    });
-//    }
-//  });
-//}
 var allData;
+var currentDate;
 //$( selector(htmlelement,cssclass,id) ).methode -> .css(),.attr(),.hide(),.show()
 //$( selector(htmlelement,cssclass,id) ).event(fn(){...})   -> .click(),.ready(),.on() 
 $(document).ready(function(){
     
     console.log("READY !!!");
     // Globale Variablen Startwere setzen
-    
+    $( "#datepicker" ).datepicker({ 
+                 onSelect: function(date) {
+                     currentDate = date;                     
+                     selectData();                                          
+                 },
+                 dateFormat: 'yy-mm-dd' 
+           }
+           
+     );
+     $('#onOffCheck').click(function(){
+         if($(this)[0].checked){
+            $('#datepicker').css({
+                opacity:0.3,
+                cursor:'none'
+            }).datepicker('disable');
+            getDataFromDB();
+         }  
+         else{
+             $('#datepicker').css({
+                opacity:1, 
+                cursor:'pointer'
+            }).datepicker('enable');
+            
+         }
+     });
     $(".mBtn").click(function(){
         /*lese die nr des gedrückten Elementes aus und mache 
         eine Zahl draus*/
@@ -149,15 +44,27 @@ $(document).ready(function(){
     
     $("#insertBtn").click(function(){
            readFormAndSendData();
-      });
-    
-    
+      });   
     getDataFromDB(); 
   
     
 });//ready End
 
-
+function selectData() {
+    
+    $.post("db.php?flag=1", {
+        datum: currentDate
+    },
+        function (data, status) {
+            allData = JSON.parse(data);
+            console.log(status);
+            if(status=='success'){
+                $('.listView').html("");
+                $(".moveBox").animate({left:'-300px'});                            
+                createTerminList();    
+            }
+        });
+}
 function readFormAndSendData(){
    //console.log( $('#insertForm').serialize() );
    console.log( $('#insertForm').serializeArray());
@@ -197,4 +104,96 @@ function readFormAndSendData(){
     //console.log(today2)
    
 }
+
+
+
+
+
+
+
+
+
+
+
+function  getDataFromDB(){
+   allData = [];
+   var xhttp = new XMLHttpRequest();
+   xhttp.onreadystatechange = function() {
+         if (this.readyState == 4 && this.status == 200) {
+         console.log( this.responseText );
+         console.log( JSON.parse(this.responseText) );
+         allData = JSON.parse(this.responseText);
+         createTerminList();
+         
+         }
+    };
+    
+   xhttp.open("GET", "db.php?flag=0", true);
+   xhttp.send(); 
   
+}
+
+
+function  deletInDB(id){
+   allData = [];
+   var xhttp = new XMLHttpRequest();
+   xhttp.onreadystatechange = function() {
+         if (this.readyState == 4 && this.status == 200) {
+             //lade aktuelle daten aus DB und aktualisiere die liste
+             $(".listView").html("");
+           getDataFromDB();
+         }
+    };
+    
+   xhttp.open("GET", "db.php?flag=2&id="+id, true);
+   xhttp.send(); 
+  
+}
+
+
+function createTerminList(){
+    console.log(allData);
+    //1. Erstellen in Abhng. von 'data' GFX-Elemente in einer Listform.
+    //2. Bei Klick 'index' auslesen und 'bemerkung' anzeigen.
+    $.each(allData,function(index,item){
+        var yp = index*(30+3);
+   $('.listView').append("<div syp='"+yp+"px' style='top:"+yp+"px;' class='listBtn' data-nr='"+item.id+"'>\n\
+<div class='listDatum'>"+item.datum+"</div>\n\
+<div class='listTitle'>"+item.titel+"</div>\
+</div>");
+   });
+   $('.listBtn').draggable(
+           { axis: "y" },
+           {
+                start: function(){ $(this).css({zIndex:100});  },
+                drag: function(){  
+                 if(parseInt($(this).css("top")) > 350){
+                  $(this).css({backgroundColor:"red"});    
+                 }else{
+                  $(this).css({backgroundColor:"whitesmoke"});
+                 }
+                },
+                stop: function(){  
+                  if( parseInt($(this).css("top")) > 350  ){
+                      if(confirm('WIRKLICH LÖSCHEN SICHER ????')){
+                     //übergebe die DB id von dem losgelassenen Element                       
+                          deletInDB( $(this).attr("data-nr") );
+                          
+                          /*$(this).remove(); */
+                         
+                          
+                      }else{
+                          $(this).css({backgroundColor:"whitesmoke"});
+                          var yp = $(this).attr("syp");
+                          $(this).animate({top:yp});
+                      }                      
+                  }else{
+                      var yp = $(this).attr("syp");
+                     $(this).animate({top:yp});
+                  }                  
+                }
+            }
+        );
+    
+    
+}

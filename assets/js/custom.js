@@ -1,4 +1,4 @@
-
+var allData;
 //$( selector(htmlelement,cssclass,id) ).methode -> .css(),.attr(),.hide(),.show()
 //$( selector(htmlelement,cssclass,id) ).event(fn(){...})   -> .click(),.ready(),.on() 
 $(document).ready(function(){
@@ -6,35 +6,14 @@ $(document).ready(function(){
     console.log("READY !!!");
     // Globale Variablen Startwere setzen    
     getDataFromDB(); 
-    getFormData();
+    readFormAndSendData();
     $(".mBtn").click(function(){
         var nr = parseInt($(this).attr('data-nr'));
         var xp = 300 * nr * -1;
         $(".moveBox").animate({
             left:xp+'px'
         });
-    });
-//    $('#overview').click(function(){
-//        $('.moveBox').animate({
-//            marginLeft:'-300px'
-//        },500);
-//    });
-//    $('#details').click(function(){
-//        $('.moveBox').animate({
-//            marginLeft:'-600px'
-//        },500);
-//    });
-//    $('#addData').click(function(){
-//        $('.moveBox').animate({
-//            marginLeft:'-900px'
-//        },500);
-//    });  
-//    $('.listView, .detailView, .addView').click(function(){
-//        $('.moveBox').animate({
-//            left:'0px'
-//        });
-//    });
-    
+    });    
 });//ready End
 
 
@@ -114,43 +93,40 @@ function deleteInDB(id){
    xhttp.open("GET", "db.php?flag=2&id="+id, true);
    xhttp.send();     
 }
-function getFormData(){
-    $('#btnForm').click(function(){
-//        alert("Yippie");
-          alert($('#inputTitle').text());
-//        var title=$('#inputTitle').val();
-//        console.log(title);
+function readFormAndSendData(){
+    $('#btnInsert').click(function(){ 
+        console.log($('#insertForm').serialize());
+        var formData=$('#insertForm').serializeArray();
+        var dateFormData=new Date(formData[1].value);
+        var titelFormData=formData[0].value;
+        var datumFormData=formData[1].value;
+        var zeitFormData=formData[2].value;
+        var kategorieFormData=formData[3].value;
+        var bemerkungFormData=formData[4].value;
+        
+        var today = new Date();
+        //var str = today.getFullYear()+"-"+today.getMonth()+"-"+today.getDate();
+        //today = new Date(str);
+        if(dateFormData<today){
+            alert("Kleiner als heute!");
+        }
+        if(titelFormData.length<=3){
+            alert("Der Text muss länger als 3 Buchstaben sein!");
+        }
+        else{
+            alert("Heute oder größer");
+            $.post("db.php?flag=3",
+             {              
+                titel:titelFormData,
+                datum:datumFormData,
+                zeit:zeitFormData,
+                kategorie:kategorieFormData,
+                bemerkung:bemerkungFormData               
+             },function(data, status){
+        alert("Data: " + data + "\nStatus: " + status);
     });
+    }
+  });
 }
-//    var viewData = function (data) {
-//        var wrapper = document.querySelector('#wrapper');
-//        var listView = document.querySelector('.listView');
-//        var ul = document.createElement('ul');
-//        var ulWrapper = listView.appendChild(ul);
-//        
-//        console.log(data);
-//        $.each(data, function(key, val){
-//            var li1 = document.createElement('li');
-//            ulWrapper.appendChild(li1);                
-//            var title = val;
-//            var text = document.createTextNode(title);
-//            ulWrapper.appendChild(text);
-//        });
-////        (var i = 0, max = data.length; i < max; i++) {
-////           var title = data[i].titel;
-////           var zeit = data[i].zeit;
-////           var dat = data[i].datum;
-//           
-////           var li1 = ulWrapper.append(li); 
-////           
-////           li1.appendChild(text);
-////           ulWrapper.appendChild(li1);
-//        //}
-//        
-//        
-//        
-////        var str = 'Titel: ' + data.titel + ' am ' + data.datum + ' um ' + data.zeit;
-////        document.querySelector('#wrapper').innerText = str;
-//    };
 
   

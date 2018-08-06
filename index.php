@@ -38,24 +38,31 @@ and open the template in the editor.
                 <div class="detailView">Detail
                     
                 </div>            
-                <div class="addView">AddView<br><br>
-                    <form><br><br>
+                <div class="addView">AddView<br>
+                    <form id="insertForm"><br>
                         <for id="inputTitle">Titel<br>
-                            <input type="text" id="inputTitle">
+                            <input type="text" id="inputTitle" name="titel" value="">
                         </for><br>
                         <for id="inputDate">Datum<br>
-                            <input type="date" id="inputDate">
-                        </for><br>
-                        <for id="inputCategory">Kategorie<br>
-                            <input type="text" id="inputCategory">
+                            <input type="date" id="inputDate" name="datum" value="">
                         </for><br>
                         <for id="inputTime">Uhrzeit<br>
-                            <input type="text" id="inputTime">
+                            <input type="time" id="inputTime" name="zeit" value="">
                         </for><br>
+                        <for id="inputCategory">Kategorie<br>
+                            <select  name="kategorie">
+                                <option value="1">Privat</option>
+                                <option value="2">Büro</option>
+                                <option value="3">Sport</option>
+                                <option value="4">Wellness</option>
+                                <option value="5">Bar</option>
+                            </select>
+                        </for><br>
+                        
                         <for id="inputComment">Bemerkung<br>
-                            <textarea col="5" span="20" id="inputComment"></textarea>
+                            <textarea col="5" span="20" id="inputComment" name="bemerkung"></textarea>
                         </for><br>
-                        <input type="button" id="btnForm" value="Termin eintragen"></button>
+                        <input type="button" id="btnInsert" value="Termin eintragen"></button>
                     </form>
                 </div>
                     

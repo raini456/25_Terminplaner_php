@@ -1,5 +1,6 @@
 var allData;
 var currentDate;
+var dataNr;
 //$( selector(htmlelement,cssclass,id) ).methode -> .css(),.attr(),.hide(),.show()
 //$( selector(htmlelement,cssclass,id) ).event(fn(){...})   -> .click(),.ready(),.on() 
 $(document).ready(function(){
@@ -12,8 +13,7 @@ $(document).ready(function(){
                      selectData();                                          
                  },
                  dateFormat: 'yy-mm-dd' 
-           }
-           
+           }           
      );
      $('#onOffCheck').click(function(){
          if($(this)[0].checked){
@@ -27,8 +27,7 @@ $(document).ready(function(){
              $('#datepicker').css({
                 opacity:1, 
                 cursor:'pointer'
-            }).datepicker('enable');
-            
+            }).datepicker('enable');            
          }
      });
     $(".mBtn").click(function(){
@@ -46,18 +45,29 @@ $(document).ready(function(){
            readFormAndSendData();
       });   
     getDataFromDB(); 
-  
-    
+    getAllCategories();
+        
 });//ready End
-
-function selectData() {
+function showDetails(){      
     
+}
+function getAllCategories(){
+    $.post("db.php?flag=4", 
+        function (data, status) {
+            var allKat = JSON.parse(data);
+            $.each(allKat, function(index,item){
+                $('#selectKat').append("<option value='"+item.id+"'>"+item.kategorie+"</option>");
+            });                    
+        });
+}
+
+
+function selectData() {    
     $.post("db.php?flag=1", {
         datum: currentDate
     },
         function (data, status) {
-            allData = JSON.parse(data);
-            console.log(status);
+            allData = JSON.parse(data);            
             if(status=='success'){
                 $('.listView').html("");
                 $(".moveBox").animate({left:'-300px'});                            
@@ -65,6 +75,7 @@ function selectData() {
             }
         });
 }
+
 function readFormAndSendData(){
    //console.log( $('#insertForm').serialize() );
    console.log( $('#insertForm').serializeArray());
@@ -76,10 +87,12 @@ function readFormAndSendData(){
    
    if(formData[0].value.length <= 3){
       alert("Sie müssen einen Titel mit min 3 Buchstaben wählen.");
-   }else{  
+     }
+     else{  
             if(dateForm < today){
                 alert("Dieser Termin liegt in der Vergangenheit und Du bist kein Prinz!");
-            }else{
+            }
+            else{
                 alert("sende Daten");
 
                  $.post("db.php?flag=3",
@@ -93,27 +106,11 @@ function readFormAndSendData(){
                  function(data, status){
                     console.log("Data: " + data + "\nStatus: " + status);
                  });
-
-
-
             }
-   }
-   
+   }   
    //var str = today.getFullYear()+"-"+(today.getMonth()+1)+"-"+today.getDate()
-   
-    //console.log(today2)
-   
+   //console.log(today2)
 }
-
-
-
-
-
-
-
-
-
-
 
 function  getDataFromDB(){
    allData = [];
@@ -123,14 +120,11 @@ function  getDataFromDB(){
          console.log( this.responseText );
          console.log( JSON.parse(this.responseText) );
          allData = JSON.parse(this.responseText);
-         createTerminList();
-         
+         createTerminList();         
          }
-    };
-    
+    };    
    xhttp.open("GET", "db.php?flag=0", true);
-   xhttp.send(); 
-  
+   xhttp.send();   
 }
 
 
@@ -157,10 +151,37 @@ function createTerminList(){
     //2. Bei Klick 'index' auslesen und 'bemerkung' anzeigen.
     $.each(allData,function(index,item){
         var yp = index*(30+3);
-   $('.listView').append("<div syp='"+yp+"px' style='top:"+yp+"px;' class='listBtn' data-nr='"+item.id+"'>\n\
+   $('.listView').append("<div class='listBtn'  syp='"+yp+"px' style='top:"+yp+"px;'data-nr='"+item.id+"'>\n\
 <div class='listDatum'>"+item.datum+"</div>\n\
 <div class='listTitle'>"+item.titel+"</div>\
 </div>");
+   });
+   $('.listBtn').click(function(){ 
+       dataNr = $(this).attr('data-nr'); 
+             
+       $.post("db.php?flag=5", {
+        id:dataNr
+        },
+        function (data, status) {
+            allData = JSON.parse(data);
+            if (status === 'success') {
+                 $.each(allData, function (index, item) {
+                  $('.detailView').html('');   
+                  $('.detailView').append('\
+                 <div class="detail">' + item.titel + '</div>\n\
+                <div class="detail">' + item.datum + '</div>\n\
+                <div class="detail">' + item.zeit + '</div>\n\
+                <div class="detail">' + item.bemerkung + '</div>\n\
+                <div class="detail">' + item.kategorie + '</div>\n\
+                ');
+                        });
+
+                        $(".moveBox").animate({left: '-600px'});
+
+
+                    }
+                });
+              
    });
    $('.listBtn').draggable(
            { axis: "y" },
@@ -193,7 +214,23 @@ function createTerminList(){
                   }                  
                 }
             }
-        );
+        );      
     
     
+}
+function showDetails(){      
+    $.post("db.php?flag=5", {
+        id:dataNr
+    },
+        function (data, status) {
+            allData = JSON.parse(data);            
+            if(status=='success'){
+                $.each(allData, function(item){
+                    $('.detailView').append('<div>'+item+'</div>');
+                });                
+                $(".moveBox").animate({left:'-600px'});
+                
+                    
+            }
+        });
 }

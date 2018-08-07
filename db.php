@@ -10,7 +10,7 @@ if (isset($_GET['flag'])) {
     $db = new PDO($dbHost, USER, PASS);
 
     if ($_GET['flag'] == '0') {
-        $sql = "SELECT * FROM termine ORDER BY datum";
+        $sql = "SELECT termine.id, termine.datum, termine.titel, kategorien.kategorie FROM termine INNER JOIN kategorien ON termine.kategorie=kategorien.id ORDER BY termine.datum";
         $statement = $db->query($sql);
         $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
         echo json_encode($rows);
@@ -48,9 +48,23 @@ if (isset($_GET['flag'])) {
         fclose($file);
         echo json_encode($msg);
     }
-} else {
+    if ($_GET['flag'] == '4') {
+        $sql = "SELECT * FROM kategorien";
+        $statement = $db->query($sql);
+        $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
+        echo json_encode($rows);
+    }
+    if ($_GET['flag'] == '5' && isset($_POST['id'])){        
+        $sql = "SELECT termine.titel, termine.datum, termine.zeit, termine.bemerkung, kategorien.kategorie FROM termine INNER JOIN kategorien ON termine.kategorie = kategorien.id WHERE termine.id ='".$_POST['id']."'";
+        $statement = $db->query($sql);
+        $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
+        echo json_encode($rows);
+    }
+    
+    } else {
     echo "ES IST EIN FEHLER AUFGETRETEN, .... !!!";
 }
+
 
 /*
  INSERT INTO `termine` (`id`, `titel`, `datum`, `zeit`, `bemerkung`, `kategorie`) VALUES

@@ -35,12 +35,21 @@ body{
     overflow:hidden;
     padding:5px;
 }
-.listBtn{
-    background-color:whitesmoke;    
+.listBtn{    
+    background-color:whitesmoke;
+    border:2px ridge blue;
+    margin-top:5%;
     width:200px;
     border-radius:5px;
     position:absolute;   
     cursor:pointer;
+}
+.detail{
+    width:200px;
+    height:20px;
+    font-size:1.3rem;
+    border:2px solid green;
+    background-color:whitesmoke;
 }
 .listDatum{font-size:12px};
 .listTitel{font-size:12px};

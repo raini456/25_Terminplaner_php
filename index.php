@@ -30,20 +30,15 @@ and open the template in the editor.
                     Alle Termine anzeigen
                     <input type="checkbox" id="onOffCheck" />
                 </div>
-                <div class="listView">List
+                <div class="listView">List                    
                     <ul id="sortable"></ul>
                     <div id="question">Wollen Sie wirklich löschen?
                         <input type="radio" name="question" value="ja">ja
                         <input type="radio" name="question" value="nein">nein
                     </div>
                 </div>
-                <div class="detailView">Detail
-                    <div id="ausgabeTitel"></div>
-                    <div id="ausgabeDatum"></div>
-                    <div id="ausgabeZeit"></div>
-                    <div id="ausgabeBemerkung"></div>
-                    <div id="ausgabeKategorie"></div>
-                </div>            
+                <div class="detailView">Detail                    
+                </div>      
                 <div class="addView">AddView<br>
                     <form id="insertForm"><br>
                         <for id="inputTitle">Titel<br>
@@ -56,12 +51,8 @@ and open the template in the editor.
                             <input type="time" id="inputTime" name="zeit" value="">
                         </for><br>
                         <for id="inputCategory">Kategorie<br>
-                            <select  name="kategorie">
-                                <option value="1">Privat</option>
-                                <option value="2">Büro</option>
-                                <option value="3">Sport</option>
-                                <option value="4">Wellness</option>
-                                <option value="5">Bar</option>
+                            <select  name="kategorie" id="selectKat">                       
+                                <option>--- bitte wählen ---</option>
                             </select>
                         </for><br>
                         
